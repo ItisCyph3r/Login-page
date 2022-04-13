@@ -57,7 +57,10 @@ app.post('/', (req, res, next) => {
                 if(users.email === req.body.email && users.password === req.body.password){
                     res.redirect('/signup')
                     console.log('gg')
-                } 
+                }
+                // } else{
+                //     console.log('ffs')
+                // }
             })
             res.render('login', {'error': passErrorMsg})
         }
