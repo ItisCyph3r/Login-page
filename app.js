@@ -75,19 +75,24 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-    const details = new User({
-        email: req.body.email,
-    })
-    const email = lodash.lowerCase(req.body.email)
-    if (req.body.password === req.body.password2) {
-        details.password = req.body.password
-    } else{
-        res.render('signup', {
-            'error': '',
-            'pass_error': 'Password does not match'
-        })
+    const details = new User({})
+
+    function getData(){
+        const email = req.body.email
+        details.email = email.toLowerCase()
+
+        if (req.body.password === req.body.password2) {
+            details.password = req.body.password
+        } else{
+            res.render('signup', {
+                'error': '',
+                'pass_error': 'Password does not match'
+            })
+        }
     }
 
+    getData()
+    
     console.log(details)
 
     User.find({email : req.body.email}, (err, docs) => {
