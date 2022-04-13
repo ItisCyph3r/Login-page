@@ -57,9 +57,7 @@ app.post('/', (req, res, next) => {
                 if(users.email === req.body.email && users.password === req.body.password){
                     res.redirect('/signup')
                     console.log('gg')
-                } else{
-                    console.log('ffs')
-                }
+                } 
             })
             res.render('login', {'error': passErrorMsg})
         }
@@ -77,12 +75,11 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     const details = new User({})
 
-    function getData(){
-        const email = req.body.email
+    function getData(email, password, password2){
         details.email = email.toLowerCase()
 
-        if (req.body.password === req.body.password2) {
-            details.password = req.body.password
+        if (password === password2) {
+            details.password = password
         } else{
             res.render('signup', {
                 'error': '',
@@ -91,7 +88,7 @@ app.post('/signup', (req, res) => {
         }
     }
 
-    getData()
+    getData(req.body.email, req.body.password, req.body.password2)
     
     console.log(details)
 
