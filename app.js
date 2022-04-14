@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const lodash = require('lodash')
 const mongoose = require('mongoose')
+const key = require(__dirname + '/encrypt.js')
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -18,14 +19,6 @@ async function main() {
 main().catch(err => console.log(err));
 
 const userSchema = new mongoose.Schema({
-    // first_name: {
-    //     type: String,
-    //     required: true
-    // },
-    // last_name: {
-    //     type: String,
-    //     required: true
-    // },
     email: {
         type: String,
         required: true
@@ -82,7 +75,9 @@ app.post('/signup', (req, res) => {
         details.email = email.toLowerCase()
 
         if (password === password2) {
-            details.password = password
+            const hashedPwd = key.encrypt(password)
+            console.log(hashedPwd)
+            details.password = hashedPwd
         } else{
             res.render('signup', {
                 'error': '',
